@@ -53,7 +53,7 @@ public class AllMembersSupplier extends ParameterSupplier {
     }
 
     @Override public List<PotentialAssignment> getValueSources(ParameterSignature sig) throws Throwable {
-        List<PotentialAssignment> assignments = new ArrayList<PotentialAssignment>();
+        List<PotentialAssignment> assignments = new ArrayList<>();
 
         addSinglePointFields(sig, assignments);
         addMultiPointFields(sig, assignments);

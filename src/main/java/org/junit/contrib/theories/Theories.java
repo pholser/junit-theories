@@ -97,7 +97,7 @@ public class Theories extends BlockJUnit4ClassRunner {
     }
 
     @Override protected List<FrameworkMethod> computeTestMethods() {
-        List<FrameworkMethod> testMethods = new ArrayList<FrameworkMethod>(super.computeTestMethods());
+        List<FrameworkMethod> testMethods = new ArrayList<>(super.computeTestMethods());
         List<FrameworkMethod> theoryMethods = getTestClass().getAnnotatedMethods(Theory.class);
         testMethods.removeAll(theoryMethods);
         testMethods.addAll(theoryMethods);
@@ -111,7 +111,7 @@ public class Theories extends BlockJUnit4ClassRunner {
     public static class TheoryAnchor extends Statement {
         private final FrameworkMethod fTestMethod;
         private final TestClass fTestClass;
-        private final List<AssumptionViolatedException> fInvalidParameters = new ArrayList<AssumptionViolatedException>();
+        private final List<AssumptionViolatedException> fInvalidParameters = new ArrayList<>();
 
         private int successes = 0;
 

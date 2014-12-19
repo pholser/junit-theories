@@ -15,7 +15,7 @@ public class EnumSupplier extends ParameterSupplier {
     }
 
     @Override public List<PotentialAssignment> getValueSources(ParameterSignature sig) {
-        List<PotentialAssignment> assignments = new ArrayList<PotentialAssignment>();
+        List<PotentialAssignment> assignments = new ArrayList<>();
         for (Object each : enumType.getEnumConstants()) {
             assignments.add(PotentialAssignment.forValue(each.toString(), each));
         }

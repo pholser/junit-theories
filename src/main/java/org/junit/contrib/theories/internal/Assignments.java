@@ -29,7 +29,7 @@ public class Assignments {
         List<ParameterSignature> signatures = ParameterSignature.signatures(testClass.getOnlyConstructor());
         signatures.addAll(ParameterSignature.signatures(testMethod));
 
-        return new Assignments(new ArrayList<PotentialAssignment>(), signatures, testClass);
+        return new Assignments(new ArrayList<>(), signatures, testClass);
     }
 
     public boolean isComplete() {
@@ -41,7 +41,7 @@ public class Assignments {
     }
 
     public Assignments assignNext(PotentialAssignment source) {
-        List<PotentialAssignment> assigned = new ArrayList<PotentialAssignment>(fAssigned);
+        List<PotentialAssignment> assigned = new ArrayList<>(fAssigned);
         assigned.add(source);
 
         return new Assignments(assigned, fUnassigned.subList(1, fUnassigned.size()), fClass);

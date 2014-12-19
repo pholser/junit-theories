@@ -21,7 +21,7 @@ public class SpecificDataPointsSupplier extends AllMembersSupplier {
     @Override protected Collection<Field> getSingleDataPointFields(ParameterSignature sig) {
         String requestedName = sig.getAnnotation(FromDataPoints.class).value();
 
-        List<Field> fieldsWithMatchingNames = new ArrayList<Field>();
+        List<Field> fieldsWithMatchingNames = new ArrayList<>();
 
         for (Field each : super.getSingleDataPointFields(sig)) {
             String[] fieldNames = each.getAnnotation(DataPoint.class).value();
@@ -36,7 +36,7 @@ public class SpecificDataPointsSupplier extends AllMembersSupplier {
     @Override protected Collection<Field> getDataPointsFields(ParameterSignature sig) {
         String requestedName = sig.getAnnotation(FromDataPoints.class).value();
 
-        List<Field> fieldsWithMatchingNames = new ArrayList<Field>();
+        List<Field> fieldsWithMatchingNames = new ArrayList<>();
 
         for (Field each : super.getDataPointsFields(sig)) {
             String[] fieldNames = each.getAnnotation(DataPoints.class).value();
@@ -51,7 +51,7 @@ public class SpecificDataPointsSupplier extends AllMembersSupplier {
     @Override protected Collection<FrameworkMethod> getSingleDataPointMethods(ParameterSignature sig) {
         String requestedName = sig.getAnnotation(FromDataPoints.class).value();
 
-        List<FrameworkMethod> methodsWithMatchingNames = new ArrayList<FrameworkMethod>();
+        List<FrameworkMethod> methodsWithMatchingNames = new ArrayList<>();
 
         for (FrameworkMethod each : super.getSingleDataPointMethods(sig)) {
             String[] methodNames = each.getAnnotation(DataPoint.class).value();
@@ -66,7 +66,7 @@ public class SpecificDataPointsSupplier extends AllMembersSupplier {
     @Override protected Collection<FrameworkMethod> getDataPointsMethods(ParameterSignature sig) {
         String requestedName = sig.getAnnotation(FromDataPoints.class).value();
 
-        List<FrameworkMethod> methodsWithMatchingNames = new ArrayList<FrameworkMethod>();
+        List<FrameworkMethod> methodsWithMatchingNames = new ArrayList<>();
 
         for (FrameworkMethod each : super.getDataPointsMethods(sig)) {
             String[] methodNames = each.getAnnotation(DataPoints.class).value();

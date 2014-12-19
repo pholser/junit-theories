@@ -9,7 +9,7 @@ import org.junit.contrib.theories.PotentialAssignment;
 
 public class TestedOnSupplier extends ParameterSupplier {
     @Override public List<PotentialAssignment> getValueSources(ParameterSignature sig) {
-        List<PotentialAssignment> list = new ArrayList<PotentialAssignment>();
+        List<PotentialAssignment> list = new ArrayList<>();
 
         TestedOn testedOn = sig.getAnnotation(TestedOn.class);
         for (int i : testedOn.ints()) {

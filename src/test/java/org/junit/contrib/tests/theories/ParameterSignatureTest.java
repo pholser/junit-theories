@@ -40,7 +40,7 @@ public class ParameterSignatureTest {
 
         List<Annotation> annotations = ParameterSignature.signatures(method).get(0).getAnnotations();
 
-        assertThat(annotations, CoreMatchers.<TestedOn> hasItem(isA(TestedOn.class)));
+        assertThat(annotations, CoreMatchers.hasItem(isA(TestedOn.class)));
     }
 
     public void intMethod(int param) {

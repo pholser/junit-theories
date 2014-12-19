@@ -14,10 +14,10 @@ import java.util.Map;
 import org.javaruntype.type.Types;
 
 public class ParameterSignature {
-    private static final Map<Class<?>, Class<?>> CONVERTABLE_TYPES_MAP = buildConvertableTypesMap();
+    private static final Map<Type, Type> CONVERTIBLE_TYPES_MAP = buildConvertibleTypesMap();
 
-    private static Map<Class<?>, Class<?>> buildConvertableTypesMap() {
-        Map<Class<?>, Class<?>> map = new HashMap<Class<?>, Class<?>>();
+    private static Map<Type, Type> buildConvertibleTypesMap() {
+        Map<Class<?>, Class<?>> map = new HashMap<>();
 
         putSymmetrically(map, boolean.class, Boolean.class);
         putSymmetrically(map, byte.class, Byte.class);
@@ -45,7 +45,7 @@ public class ParameterSignature {
     }
 
     private static List<ParameterSignature> signatures(Type[] parameterTypes, Annotation[][] parameterAnnotations) {
-        List<ParameterSignature> sigs = new ArrayList<ParameterSignature>();
+        List<ParameterSignature> sigs = new ArrayList<>();
         for (int i = 0; i < parameterTypes.length; i++) {
             sigs.add(new ParameterSignature(parameterTypes[i], parameterAnnotations[i]));
         }
@@ -77,9 +77,9 @@ public class ParameterSignature {
     }
 
     private static boolean isAssignableViaTypeConversion(Type targetType, Type candidate) {
-        if (CONVERTABLE_TYPES_MAP.containsKey(candidate)) {
-            Class<?> wrapperClass = CONVERTABLE_TYPES_MAP.get(candidate);
-            return assignable(targetType, wrapperClass);
+        if (CONVERTIBLE_TYPES_MAP.containsKey(candidate)) {
+            Type wrapper = CONVERTIBLE_TYPES_MAP.get(candidate);
+            return assignable(targetType, wrapper);
         }
         return false;
     }

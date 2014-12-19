@@ -26,7 +26,7 @@ public class StubbedTheories extends Theories {
             super(method, testClass);
         }
 
-        private final List<GuesserQueue> queues = new ArrayList<GuesserQueue>();
+        private final List<GuesserQueue> queues = new ArrayList<>();
 
         @Override protected void handleAssumptionViolation(AssumptionViolatedException e) {
             super.handleAssumptionViolation(e);
@@ -49,7 +49,7 @@ public class StubbedTheories extends Theories {
 
             if (nextUnassigned.hasAnnotation(Stub.class)) {
                 GuesserQueue queue = new GuesserQueue();
-                queue.add(new Guesser<Object>((Class<?>) nextUnassigned.getType()));
+                queue.add(new Guesser<>((Class<?>) nextUnassigned.getType()));
                 return queue;
             }
 
