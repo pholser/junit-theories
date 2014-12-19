@@ -3,6 +3,7 @@ package org.junit.contrib.theories;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,27 +38,32 @@ public class ParameterSignature {
     }
 
     public static List<ParameterSignature> signatures(Method method) {
-        return signatures(method.getGenericParameterTypes(), method.getParameterAnnotations());
+        return signatures(method.getGenericParameterTypes(), method.getParameters());
     }
 
     public static List<ParameterSignature> signatures(Constructor<?> constructor) {
-        return signatures(constructor.getGenericParameterTypes(), constructor.getParameterAnnotations());
+        return signatures(constructor.getGenericParameterTypes(), constructor.getParameters());
     }
 
-    private static List<ParameterSignature> signatures(Type[] parameterTypes, Annotation[][] parameterAnnotations) {
+    private static List<ParameterSignature> signatures(Type[] parameterTypes, Parameter[] parameters) {
         List<ParameterSignature> sigs = new ArrayList<>();
         for (int i = 0; i < parameterTypes.length; i++) {
-            sigs.add(new ParameterSignature(parameterTypes[i], parameterAnnotations[i]));
+            sigs.add(new ParameterSignature(
+                    parameterTypes[i],
+                    parameters[i].getAnnotations(),
+                    parameters[i].getName()));
         }
         return sigs;
     }
 
     private final Type type;
     private final Annotation[] annotations;
+    private final String name;
 
-    private ParameterSignature(Type type, Annotation[] annotations) {
+    private ParameterSignature(Type type, Annotation[] annotations, String name) {
         this.type = type;
         this.annotations = annotations;
+        this.name = name;
     }
 
     public boolean canAcceptValue(Object candidate) {
@@ -94,6 +100,10 @@ public class ParameterSignature {
 
     public List<Annotation> getAnnotations() {
         return Arrays.asList(annotations);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public boolean hasAnnotation(Class<? extends Annotation> type) {
