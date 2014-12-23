@@ -2,6 +2,7 @@ package org.junit.contrib.theories;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
@@ -37,12 +38,8 @@ public class ParameterSignature {
         map.put(b, a);
     }
 
-    public static List<ParameterSignature> signatures(Method method) {
-        return signatures(method.getGenericParameterTypes(), method.getParameters());
-    }
-
-    public static List<ParameterSignature> signatures(Constructor<?> constructor) {
-        return signatures(constructor.getGenericParameterTypes(), constructor.getParameters());
+    public static List<ParameterSignature> signatures(Executable e) {
+        return signatures(e.getGenericParameterTypes(), e.getParameters());
     }
 
     private static List<ParameterSignature> signatures(Type[] parameterTypes, Parameter[] parameters) {
