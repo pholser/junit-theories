@@ -39,16 +39,12 @@ public class ParameterSignature {
     }
 
     public static List<ParameterSignature> signatures(Executable e) {
-        return signatures(e.getGenericParameterTypes(), e.getParameters());
-    }
-
-    private static List<ParameterSignature> signatures(Type[] parameterTypes, Parameter[] parameters) {
         List<ParameterSignature> sigs = new ArrayList<>();
-        for (int i = 0; i < parameterTypes.length; i++) {
+        for (Parameter each : e.getParameters()) {
             sigs.add(new ParameterSignature(
-                    parameterTypes[i],
-                    parameters[i].getAnnotations(),
-                    parameters[i].getName()));
+                    each.getAnnotatedType().getType(),
+                    each.getAnnotations(),
+                    each.getName()));
         }
         return sigs;
     }
