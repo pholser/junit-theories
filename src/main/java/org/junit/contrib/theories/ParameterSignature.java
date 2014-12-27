@@ -1,9 +1,10 @@
 package org.junit.contrib.theories;
 
+import org.javaruntype.type.Types;
+
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Executable;
-import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.javaruntype.type.Types;
 
 public class ParameterSignature {
     private static final Map<Type, Type> CONVERTIBLE_TYPES_MAP = buildConvertibleTypesMap();
@@ -41,37 +40,30 @@ public class ParameterSignature {
     public static List<ParameterSignature> signatures(Executable e) {
         List<ParameterSignature> sigs = new ArrayList<>();
         for (Parameter each : e.getParameters()) {
-            sigs.add(new ParameterSignature(
-                    each.getAnnotatedType().getType(),
-                    each.getAnnotations(),
-                    each.getName()));
+            sigs.add(new ParameterSignature(each));
         }
         return sigs;
     }
 
-    private final Type type;
-    private final Annotation[] annotations;
-    private final String name;
+    private final Parameter parameter;
 
-    private ParameterSignature(Type type, Annotation[] annotations, String name) {
-        this.type = type;
-        this.annotations = annotations;
-        this.name = name;
+    private ParameterSignature(Parameter parameter) {
+        this.parameter = parameter;
     }
 
     public boolean canAcceptValue(Object candidate) {
         return candidate == null
-                ? !Types.forJavaLangReflectType(type).getRawClass().isPrimitive()
+                ? !Types.forJavaLangReflectType(getType()).getRawClass().isPrimitive()
                 : canAcceptType(candidate.getClass());
     }
 
     public boolean canAcceptType(Type candidate) {
-        return assignable(type, candidate) || isAssignableViaTypeConversion(type, candidate);
+        return assignable(getType(), candidate) || isAssignableViaTypeConversion(getType(), candidate);
     }
 
     public boolean canPotentiallyAcceptType(Class<?> candidate) {
-        return assignable(candidate, type)
-                || isAssignableViaTypeConversion(candidate, type)
+        return assignable(candidate, getType())
+                || isAssignableViaTypeConversion(candidate, getType())
                 || canAcceptType(candidate);
     }
 
@@ -88,15 +80,19 @@ public class ParameterSignature {
     }
 
     public Type getType() {
-        return type;
+        return getAnnotatedType().getType();
+    }
+
+    public AnnotatedType getAnnotatedType() {
+        return parameter.getAnnotatedType();
     }
 
     public List<Annotation> getAnnotations() {
-        return Arrays.asList(annotations);
+        return Arrays.asList(parameter.getAnnotations());
     }
 
     public String getName() {
-        return name;
+        return parameter.getName();
     }
 
     public boolean hasAnnotation(Class<? extends Annotation> type) {
@@ -104,7 +100,7 @@ public class ParameterSignature {
     }
 
     public <T extends Annotation> T findDeepAnnotation(Class<T> annotationType) {
-        return findDeepAnnotation(annotations, annotationType, 3);
+        return findDeepAnnotation(parameter.getAnnotations(), annotationType, 3);
     }
 
     private <T extends Annotation> T findDeepAnnotation(Annotation[] annotations,

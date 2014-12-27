@@ -1,6 +1,5 @@
 package org.junit.contrib.tests.theories;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.contrib.theories.DataPoint;
 import org.junit.contrib.theories.ParameterSignature;
@@ -10,9 +9,17 @@ import org.junit.contrib.theories.suppliers.TestedOn;
 import org.junit.runner.RunWith;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 
+import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.RetentionPolicy.*;
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.junit.Assume.*;
@@ -48,6 +55,26 @@ public class ParameterSignatureTest {
         Method method = getClass().getMethod("foo", int.class);
 
         assertThat(signatures(method).get(0).getName(), anyOf(is("x"), is("arg0")));
+    }
+
+    @Test public void getAnnotatedType() throws Exception {
+        Method method = getClass().getMethod("annotatedTypeMethod", List.class);
+
+        ParameterSignature sig = signatures(method).get(0);
+
+        AnnotatedType annotatedType = sig.getAnnotatedType();
+        assertThat(annotatedType, instanceOf(AnnotatedParameterizedType.class));
+        AnnotatedParameterizedType parameterized = (AnnotatedParameterizedType) annotatedType;
+        assertThat(asList(parameterized.getAnnotatedActualTypeArguments()[0].getAnnotations()),
+                hasItem(isA(Positive.class)));
+    }
+
+    @Target(TYPE_USE)
+    @Retention(RUNTIME)
+    public @interface Positive {
+    }
+
+    public void annotatedTypeMethod(List<@Positive Integer> param) {
     }
 
     public void intMethod(int param) {
