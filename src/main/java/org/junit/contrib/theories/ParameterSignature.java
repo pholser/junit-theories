@@ -3,18 +3,18 @@ package org.junit.contrib.theories;
 import org.javaruntype.type.Types;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Parameter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ParameterSignature {
+public class ParameterSignature implements AnnotatedElement {
     private static final Map<Type, Type> CONVERTIBLE_TYPES_MAP = buildConvertibleTypesMap();
 
     private static Map<Type, Type> buildConvertibleTypesMap() {
@@ -87,8 +87,14 @@ public class ParameterSignature {
         return parameter.getAnnotatedType();
     }
 
-    public List<Annotation> getAnnotations() {
-        return Arrays.asList(parameter.getAnnotations());
+    @Override
+    public Annotation[] getAnnotations() {
+        return parameter.getAnnotations();
+    }
+
+    @Override
+    public Annotation[] getDeclaredAnnotations() {
+        return parameter.getDeclaredAnnotations();
     }
 
     public String getName() {

@@ -46,7 +46,7 @@ public class ParameterSignatureTest {
     @Test public void getAnnotations() throws Exception {
         Method method = getClass().getMethod("foo", int.class);
 
-        List<Annotation> annotations = signatures(method).get(0).getAnnotations();
+        List<Annotation> annotations = Arrays.asList(signatures(method).get(0).getAnnotations());
 
         assertThat(annotations, hasItem(isA(TestedOn.class)));
     }
