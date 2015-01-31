@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  * as potential values for that parameter to only the {@link DataPoints} with the given name.</p>
  *
  * <p>Data points without names will not be considered as values for any parameters annotated with
- * &#064FromDataPoints.</p>
+ * &#064;FromDataPoints.</p>
  *
  * <pre>
  * &#064;DataPoints
