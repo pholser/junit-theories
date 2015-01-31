@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.*;
  * public &#064;interface SpecialParameter { }
  *
  * &#064;Theory
- * public void theoryMethod(&#064SpecialParameter String param) {
+ * public void theoryMethod(&#064;SpecialParameter String param) {
  *   ...
  * }
  * </pre>
