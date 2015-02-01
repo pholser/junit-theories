@@ -3,6 +3,9 @@ JUnit Theories Runner
 
 This is a port of the JUnit theories runner into junit.contrib.
 
+As of version 5.0, junit-theories is built with JDK 8, and source/target-compatible
+with 1.8 and beyond.
+
 In addition to being current with the theories implementation in JUnit 4.12 and
 depending on its core, this implementation contains a resolution for
 [JUnit GitHub issue 64](http://github.com/junit-team/junit/issues/64), making it possible for
