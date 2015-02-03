@@ -30,7 +30,7 @@ Releases are synced to the central Maven repository. Declare a dependency elemen
       <dependency>
         <groupId>org.junit.contrib</groupId>
         <artifactId>junit-theories</artifactId>
-        <version>4.12</version>
+        <version>5.0-alpha-1</version>
       </dependency>
       ...
     </dependencies>
