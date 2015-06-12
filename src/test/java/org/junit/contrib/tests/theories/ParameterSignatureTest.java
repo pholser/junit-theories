@@ -57,6 +57,16 @@ public class ParameterSignatureTest {
         assertThat(signatures(method).get(0).getName(), anyOf(is("x"), is("arg0")));
     }
 
+    @Test public void getDeclarerName() throws Exception {
+        Method method = getClass().getMethod("foo", int.class);
+
+        List<ParameterSignature> sigs = signatures(method);
+
+        assertEquals(
+                "org.junit.contrib.tests.theories.ParameterSignatureTest.foo",
+                sigs.get(0).getDeclarerName());
+    }
+
     @Test public void getAnnotatedType() throws Exception {
         Method method = getClass().getMethod("annotatedTypeMethod", List.class);
 
@@ -89,24 +99,26 @@ public class ParameterSignatureTest {
     @Test public void primitiveTypesShouldBeAcceptedAsWrapperTypes() throws Exception {
         List<ParameterSignature> signatures =
                 signatures(getClass().getMethod("integerMethod", Integer.class));
-        ParameterSignature integerSignature = signatures.get(0);
+        ParameterSignature sig = signatures.get(0);
 
-        assertTrue(integerSignature.canAcceptType(int.class));
+        assertTrue(sig.canAcceptType(int.class));
     }
 
     @Test public void primitiveTypesShouldBeAcceptedAsWrapperTypeAssignables() throws Exception {
         List<ParameterSignature> signatures =
                 signatures(getClass().getMethod("numberMethod", Number.class));
-        ParameterSignature numberSignature = signatures.get(0);
 
-        assertTrue(numberSignature.canAcceptType(int.class));
+        ParameterSignature sig = signatures.get(0);
+
+        assertTrue(sig.canAcceptType(int.class));
     }
 
     @Test public void wrapperTypesShouldBeAcceptedAsPrimitiveTypes() throws Exception {
         List<ParameterSignature> signatures =
                 signatures(getClass().getMethod("intMethod", int.class));
-        ParameterSignature intSignature = signatures.get(0);
 
-        assertTrue(intSignature.canAcceptType(Integer.class));
+        ParameterSignature sig = signatures.get(0);
+
+        assertTrue(sig.canAcceptType(Integer.class));
     }
 }

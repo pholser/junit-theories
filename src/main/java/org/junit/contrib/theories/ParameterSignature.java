@@ -101,6 +101,11 @@ public class ParameterSignature implements AnnotatedElement {
         return parameter.getName();
     }
 
+    public String getDeclarerName() {
+        Executable exec = parameter.getDeclaringExecutable();
+        return exec.getDeclaringClass().getName() + '.' + exec.getName();
+    }
+
     public boolean hasAnnotation(Class<? extends Annotation> type) {
         return getAnnotation(type) != null;
     }
